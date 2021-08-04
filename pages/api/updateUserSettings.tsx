@@ -4,7 +4,7 @@ import prisma from '../../lib/prisma'
 //When updating settings, send full settings as it overwrites.
 //this way the api doesn't need to know if add/remove
 
-async function updateUserSettings(id: string, settings: any){
+async function updateUserSettings(id: number, settings: any){
     const result = await prisma.users.update({
         where: {
             id: id,
@@ -17,10 +17,10 @@ async function updateUserSettings(id: string, settings: any){
 }
 
 export default  async(req: NextApiRequest, res: NextApiResponse) => {
-    var id = req.body.id
+    var id: number = req.body.id
     var settings = req.body.settings
     if (req.method === 'POST') {
-        var data = await updateUserSettings(id.toString(), settings)
+        var data = await updateUserSettings(id, settings)
         res.json(data)
     }
 };

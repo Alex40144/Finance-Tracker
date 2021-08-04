@@ -14,7 +14,7 @@ export default function dashboard() {
     if (!user) return <h1>Loading User...</h1>;
 
     if (!user.email) {
-        Router.push('/FinanceTracker')
+        Router.push('/')
     }
     
     if (!data) return <h1>Loading Data...</h1>;
@@ -27,7 +27,7 @@ export default function dashboard() {
             <p>Welcome {user.email}!</p>
             <h1>Dashboard</h1>
             <p>Someone make this look nice</p>
-            <Table data={data}/>
+            <h1> Monthly Balance Change</h1>
             
             
         </Layout>

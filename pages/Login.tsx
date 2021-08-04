@@ -13,7 +13,7 @@ export default function login() {
     });
     if (data) {
         if (data.email) {
-            Router.push("/FinanceTracker/Dashboard");
+            Router.push("/Dashboard");
         }
         if (data.error){
             toast(data.message, {
@@ -43,7 +43,7 @@ export default function login() {
             if (data && data.token) {
                 //set cookie
                 cookie.set('token', data.token, {expires: 2});
-                Router.push("/FinanceTracker/Dashboard");
+                Router.push("/Dashboard");
             }
             else{
                 console.error("no token with login request")

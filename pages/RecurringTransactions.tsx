@@ -17,14 +17,17 @@ export default function dashboard() {
     const fetcher = (url: string) => fetch(url).then((response) => response.json())
 
     const {data: user, revalidate} = useSWR('/api/authed', fetcher)
-    const {data, error} = useSWR(user ? '/api/getTransactions?userId='+user.userId : null, fetcher)
+    const {data, error} = useSWR(user ? '/api/getTransactions?id='+user.id : null, fetcher)
+    const {settings} = useSWR(user ? '/api/getUserSettings?id='+user.id : null, fetcher)
     if (!user) return <h1>Loading...</h1>;
+    if (!data) return <h1>Loading Data...</h1>;
+    if (!settings) return <h1>Loading Settings...</h1>;
 
     let loggedIn = false;
     if (user.email) {
         loggedIn = true;
     } else {
-        Router.push('/FinanceTracker')
+        Router.push('/')
     }
     
     if (!data) return <h1>Loading...</h1>;
@@ -47,6 +50,12 @@ export default function dashboard() {
         });
     };
 
+    console.log(settings)
+    var select = document.getElementById("categories");
+    for(index in settings.Categories) {
+        select.options[select.options.length] = new Option(settings.Categories[index], index);
+    }
+
     return (
         <Layout>
             <Head>
@@ -54,13 +63,7 @@ export default function dashboard() {
             </Head>
             <h1>Transactions</h1>
             <Table data={data}/>
-            <button className="text-blue underline cursor-pointer"
-                onClick={() => {
-                cookie.remove('token');
-                revalidate();
-                }}>
-                Logout
-            </button>
+
             
             <div className="p-12 -flex text-justify">
                 <form
@@ -78,20 +81,27 @@ export default function dashboard() {
                     type="number"
                     value={value}
                 />
-                <p> this needs updating to weekly/monthly/yearly </p>
-                <input
+                <select
                     onChange={e => setFrequency(e.target.value)}
                     placeholder="frequency"
                     type="text"
                     value={frequency}
-                />
+                >
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
+                </select>
                 <p>this needs to be a drop down of the categories the user has made</p>
-                <input
+                <select
+                    id="categories"
                     onChange={e => setCategory(e.target.value)}
                     placeholder="category"
                     type="text"
                     value={category}
-                />
+                >
+
+                </select>
                 <input
                     disabled={!title || !value || !frequency || !category || title == category}
                     type="submit"

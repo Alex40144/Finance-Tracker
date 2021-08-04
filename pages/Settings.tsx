@@ -23,14 +23,14 @@ export default function dashboard() {
     if (user.email) {
         loggedIn = true;
     } else {
-        Router.push('/FinanceTracker')
+        Router.push('/')
     }
     
     if (!data) return <h1>Loading...</h1>;
 
     const submitData = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        data.categories.push(category)
+        data.Categories.push(category)
         const body = {
             "settings":data,
             "id":user.id

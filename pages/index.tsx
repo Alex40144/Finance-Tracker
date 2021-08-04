@@ -10,7 +10,7 @@ export default function Main(){
         <h2>This is a work in progress, so you might lose all your data</h2>
         <form className="flex flex-row w-full justify-evenly text-center">
             <div className="text-center w-auto">
-                <Link href="/FinanceTracker/Signup">
+                <Link href="/Signup">
                     <input
                         className="text-3xl bg-blue font-bold flex m-5 px-4 py-8 flex-grow rounded-md cursor-pointer"
                         value="Sign up"
@@ -19,7 +19,7 @@ export default function Main(){
                 </Link>
             </div>
             <div className="text-center w-auto">
-                <Link href="/FinanceTracker/Login">
+                <Link href="/Login">
                     <input
                         className="text-3xl bg-blue font-bold flex m-5 px-4 py-8 flex-grow rounded-md cursor-pointer"
                         value="Log in"

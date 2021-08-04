@@ -21,14 +21,12 @@ export default class Table extends React.Component {
     getHeader = function(){
         var keys = this.getKeys();
         return keys.map((key, index)=>{
-        return <th className="text-white bg-blue px-8 py-3 border-b-2 border-gray-200" key={key}>{key}</th>
+        return <td className="text-white bg-blue px-8 py-3 border-b-2 border-gray-200" key={key}>{key}</td>
         })
     }
     
     getRowsData = function(){
         var keys = this.getKeys();
-        console.log(keys)
-        console.log(keys.length)
         if (keys.length == 1){
             var items = this.props.data[keys[0]];
             return items.map((row)=>{
@@ -50,8 +48,12 @@ export default class Table extends React.Component {
     return (
         <div className="w-full">
             <table className="bg-dark m-0 w-full border-separate">
+                <thead>
                 {this.getHeader()}
+                </thead>
+                <tbody>
                 {this.getRowsData()}
+                </tbody>
             </table>
         </div>
     );

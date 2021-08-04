@@ -56,8 +56,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         var email = req.body.email
         var password = req.body.password
 
-        var user = await findUser(email)
-        if (!user) {
+        var Existinguser = await findUser(email)
+        if (!Existinguser) {
             console.log("creating new user")
             // proceed to Create
             var creationResult = await createUser(name, email, password)

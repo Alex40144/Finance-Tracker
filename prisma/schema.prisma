@@ -1,16 +1,15 @@
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["mongodb"]
+  provider = "prisma-client-js"
 }
 
 model Users {
   name       String
-  id         String   @default(dbgenerated()) @map("_id") @id @db.ObjectId
+  id         Int   @default(autoincrement()) @id
   email      String   @unique
   password   String
   settings Json
@@ -21,8 +20,8 @@ model Data {
   title     String
   value     Float
   frequency String
-  id        String @unique @default(dbgenerated()) @db.ObjectId @id @map("_id")
+  id        Int @default(autoincrement()) @id
   category  String
   users     Users  @relation(fields: [ownerId], references: [id])
-  ownerId   String @db.ObjectId
+  ownerId   Int
 }

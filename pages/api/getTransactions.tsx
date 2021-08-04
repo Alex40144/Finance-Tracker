@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../lib/prisma'
 
-async function findData(id: string){
+async function findData(id: number){
     var result = await prisma.data.findMany({
         where: {
             ownerId: id,
@@ -13,13 +13,12 @@ async function findData(id: string){
             category: true
           },
     })
-    console.log(result)
     return result;
 }
 
 export default  async(req: NextApiRequest, res: NextApiResponse) => {
-    var id = req.query.id.toString()
-    if (id == 'undefined'){
+    var id: number = Number(req.query.id)
+    if (id == null){
         res.status(500).json({error: true, message: 'no id sent with request'});
         return;
     }

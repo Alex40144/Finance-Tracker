@@ -25,7 +25,7 @@ export default function signup() {
             if (data && data.token) {
                 //set cookie
                 cookie.set('token', data.token, {expires: 2});
-                Router.push('/FinanceTracker/Dashboard');
+                Router.push('/Dashboard');
             }
             else{
                 console.error("Signup failed. Please contact Alex")
@@ -66,7 +66,7 @@ export default function signup() {
                 type="submit"
                 value="Sign up"
             />
-            <a className="ml-4" href="#" onClick={() => Router.push('/FinanceTracker')}>
+            <a className="ml-4" href="#" onClick={() => Router.push('/')}>
                 or Cancel
             </a>
             </form>
