@@ -7,7 +7,7 @@ async function createData(title: string, value: number, frequency: string, user:
             title: title,
             value: value,
             frequency: frequency,
-            user: user.userId,
+            ownerId: user.id,
             category: category
             }
     })

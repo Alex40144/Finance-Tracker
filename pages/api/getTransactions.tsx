@@ -18,12 +18,8 @@ async function findData(id: number){
 
 export default  async(req: NextApiRequest, res: NextApiResponse) => {
     var id: number = Number(req.query.id)
-    if (id == null){
-        res.status(500).json({error: true, message: 'no id sent with request'});
-        return;
-    }
     if (req.method === 'GET') {
-        var data = await findData(id)
-        res.json(data)
+        var transactions = await findData(id)
+        res.json(transactions)
     }
-};
+}

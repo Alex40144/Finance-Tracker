@@ -48,8 +48,8 @@ export default function Layout({
         <ToastContainer />                
         <div id="Sidebar"className="h-full w-0 fixed top-0 left-0 bg-black overflow-x-hidden pt-10 duration-500 z-10">
         <a href="/Dashboard" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl">Dashboard</a>
-            <a href="/RecurringTransactions" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl"> Recurring Transactions</a>
-            <a href="/SingleTransactions" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl"> Add a single Transaction</a>
+            <a href="/RecurringTransactions" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl">Recurring Transactions</a>
+            <a href="/SingleTransactions" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl">Single Transactions</a>
             <a href="/Settings" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl">Settings</a>
         </div>
         <div className="flex flex-row bg-blue h-14 w-full">

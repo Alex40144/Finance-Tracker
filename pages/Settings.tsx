@@ -16,7 +16,7 @@ export default function dashboard() {
     const fetcher = (url: string) => fetch(url).then((response) => response.json())
 
     const {data: user} = useSWR('/api/authed', fetcher)
-    var {data, error, revalidate} = useSWR(user ? '/api/getUserSettings?id='+user.id : null, fetcher)
+    var {settings, error, revalidate} = useSWR(user ? '/api/getUserSettings?id='+user.id : null, fetcher)
     if (!user) return <h1>Loading...</h1>;
 
     let loggedIn = false;
@@ -26,13 +26,13 @@ export default function dashboard() {
         Router.push('/')
     }
     
-    if (!data) return <h1>Loading...</h1>;
+    if (!settings) return <h1>Loading...</h1>;
 
     const submitData = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        data.Categories.push(category)
+        settings.Categories.push(category)
         const body = {
-            "settings":data,
+            "settings":settings,
             "id":user.id
         }
         const res = await fetch(`http://localhost:3000/api/updateUserSettings`, {
@@ -59,7 +59,7 @@ export default function dashboard() {
             </Head>
             <h1>Settings</h1>
             <div id="categories">
-                <Table data={data}/>
+                <Table data={settings}/>
             </div>
             <div className="p-12 -flex text-justify">
                 <form

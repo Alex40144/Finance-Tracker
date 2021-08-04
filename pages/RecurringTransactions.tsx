@@ -3,8 +3,8 @@ import Head from 'next/head'
 import React, { useState } from 'react'
 import Router from 'next/router'
 import useSWR from 'swr'
-import cookie from 'js-cookie'
 import Table from '../components/table'
+import { useEffect } from "react"
 
 
 export default function dashboard() {
@@ -13,15 +13,27 @@ export default function dashboard() {
     const [frequency , setFrequency] = useState('')
     const [category, setCategory] = useState('')
 
-
     const fetcher = (url: string) => fetch(url).then((response) => response.json())
 
     const {data: user, revalidate} = useSWR('/api/authed', fetcher)
-    const {data, error} = useSWR(user ? '/api/getTransactions?id='+user.id : null, fetcher)
-    const {settings} = useSWR(user ? '/api/getUserSettings?id='+user.id : null, fetcher)
-    if (!user) return <h1>Loading...</h1>;
-    if (!data) return <h1>Loading Data...</h1>;
-    if (!settings) return <h1>Loading Settings...</h1>;
+    const {data: transactions, error} = useSWR(user ? '/api/getTransactions?id='+user.id : null, fetcher)
+    const {data: settings} = useSWR(transactions ? '/api/getUserSettings?id='+user.id : null, fetcher)
+
+    useEffect(()=>{
+        if (settings){
+            var select = document.getElementById("categories");
+            if (!select){
+                return
+            }
+            var index: any
+            for(index in settings.Categories) {
+                select.options[select.options.length] = new Option(settings.Categories[index], settings.Categories[index])
+            }
+        }
+    }, [settings])
+
+    if (!settings) return <h1>Loading...</h1>;
+
 
     let loggedIn = false;
     if (user.email) {
@@ -29,9 +41,6 @@ export default function dashboard() {
     } else {
         Router.push('/')
     }
-    
-    if (!data) return <h1>Loading...</h1>;
-    console.log(data)
 
     const submitData = async (e: React.SyntheticEvent) => {
         e.preventDefault()
@@ -50,19 +59,14 @@ export default function dashboard() {
         });
     };
 
-    console.log(settings)
-    var select = document.getElementById("categories");
-    for(index in settings.Categories) {
-        select.options[select.options.length] = new Option(settings.Categories[index], index);
-    }
-
+    
     return (
         <Layout>
             <Head>
                 <title>{siteTitle}</title>
             </Head>
             <h1>Transactions</h1>
-            <Table data={data}/>
+            <Table data={transactions}/>
 
             
             <div className="p-12 -flex text-justify">
@@ -75,33 +79,33 @@ export default function dashboard() {
                     type="text"
                     value={title}
                 />
+
                 <input
                     onChange={e => setValue(e.target.value)}
                     placeholder="value"
                     type="number"
                     value={value}
                 />
+
                 <select
                     onChange={e => setFrequency(e.target.value)}
                     placeholder="frequency"
-                    type="text"
                     value={frequency}
                 >
+
                     <option value="Daily">Daily</option>
                     <option value="Weekly">Weekly</option>
                     <option value="Monthly">Monthly</option>
                     <option value="Yearly">Yearly</option>
                 </select>
-                <p>this needs to be a drop down of the categories the user has made</p>
+
                 <select
                     id="categories"
                     onChange={e => setCategory(e.target.value)}
                     placeholder="category"
-                    type="text"
                     value={category}
-                >
+                />
 
-                </select>
                 <input
                     disabled={!title || !value || !frequency || !category || title == category}
                     type="submit"
