@@ -24,10 +24,10 @@ export default function dashboard() {
             <Head>
                 <title>{siteTitle}</title>
             </Head>
-            <p>Welcome {user.email}!</p>
+            <p>Welcome {user.name}!</p>
             <h1>Dashboard</h1>
-            <p>Someone make this look nice</p>
-            <h1> Monthly Balance Change</h1>
+            <h1> This month's balance change</h1>
+            <h2> previous months balance change</h2>
             
             
         </Layout>
