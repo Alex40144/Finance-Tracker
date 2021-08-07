@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
 import Link from 'next/link'
-import Layout from '../components/FTlayout'
+import Layout from '../components/layout'
 
 export default function Main(){
   return (
 
     <Layout home>
         <h2>This is a work in progress, so you might lose all your data</h2>
+        <h3>This website has no access to your real money, it just allows you to track expenses</h3>
         <form className="flex flex-row w-full justify-evenly text-center">
             <div className="text-center w-auto">
                 <Link href="/Signup">

@@ -1,10 +1,24 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/layout.module.css'
 import Link from 'next/link'
+import cookie from 'js-cookie'
+import { ToastContainer, toast } from 'react-toastify';
+import router from 'next/router';
 
 const name = 'Alex Pegg'
 export const siteTitle = 'Alex Pegg'
+
+function toggleSidebar() {
+    if (document.getElementById("Sidebar").style.width == "0px") {
+        document.getElementById("Sidebar").style.width = "350px";
+        document.getElementById("main").style.marginLeft = "350px";
+    }
+    else {
+        document.getElementById("Sidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+}
+
 
 export default function Layout({
     children,
@@ -14,7 +28,7 @@ export default function Layout({
     home?: boolean
   }) {
     return (
-    <div className={styles.container}>
+    <div id="main">
         <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
@@ -30,45 +44,40 @@ export default function Layout({
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
         </Head>
-        <header className={styles.header}>
-        {home ? (
-            <>
-            <Image
-                priority
-                src="/images/profile.png"
-                height={144}
-                width={144}
-                alt={name}
-            />
-            <h1 className="text-6xl text-blue font-bold p-6">{name}</h1>
-            </>
-        ) : (
-            <>
-            <Link href="/">
-                <a>
-                <Image
-                    priority
-                    src="/images/profile.png"
-                    height={108}
-                    width={108}
-                    alt={name}
-                />
-                </a>
-            </Link>
-            <Link href="/">
-            <a className="hover:underline text-blue font-bold text-3xl m-8">{name}</a>
-            </Link>
-            </>
-        )}
-        </header>
-        <main>{children}</main>
-        {!home && (
-        <div className="my-3 text-blue hover:underline">
-            <Link href="/">
-            <a>← Back to home</a>
-            </Link>
+        <header>
+        <ToastContainer />                
+        <div id="Sidebar"className="h-full w-0 fixed top-0 left-0 bg-black overflow-x-hidden pt-10 duration-500 z-10">
+        <a href="/Dashboard" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl">Dashboard</a>
+            <a href="/RecurringTransactions" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl">Recurring Transactions</a>
+            <a href="/SingleTransactions" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl">Single Transactions</a>
+            <a href="/Settings" className="text-light p-8 block w-1/3 duration-300 hover:text-blue text-3xl">Settings</a>
         </div>
-        )}
+        <div className="flex flex-row bg-blue h-14 w-full">
+            {home ? (
+                <button disabled className="text-4xl text-white" onClick={toggleSidebar}>&#9776;</button>
+            ) : (
+                <button className="text-4xl text-white" onClick={toggleSidebar}>&#9776;</button>
+            )}
+            <Link href="/Dashboard">
+            <a className="hover:underline text-white font-bold text-xl m-4">Finance Tracker</a>
+            </Link>
+            {home ? (
+                <></>
+            ):(
+                <button className="text-white underline cursor-pointer"
+                    onClick={() => {
+                        cookie.remove('token');
+                        router.push('/')
+                    }}>
+                    Logout
+                </button>
+            )}
+        </div>
+        
+        </header>
+        <div className="m-auto w-1/3 text-center">
+            <main>{children}</main>
+        </div>
     </div>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
 import cookie from 'js-cookie'
-import Layout from '../components/FTlayout'
+import Layout from '../components/layout'
 import useSWR from 'swr';
 import { toast } from 'react-toastify';
 

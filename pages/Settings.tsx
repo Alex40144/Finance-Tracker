@@ -1,4 +1,4 @@
-import Layout, { siteTitle } from '../components/FTlayout'
+import Layout, { siteTitle } from '../components/layout'
 import Head from 'next/head'
 import React, { useState } from 'react'
 import Router from 'next/router'

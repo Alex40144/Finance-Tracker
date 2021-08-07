@@ -16,7 +16,7 @@ export default function dashboard() {
     const fetcher = (url: string) => fetch(url).then((response) => response.json())
 
     const {data: user, revalidate} = useSWR('/api/authed', fetcher)
-    var {data: transactions, error} = useSWR(user ? '/api/getTransactions?id='+user.id+"&recurring=true" : null, fetcher)
+    var {data: transactions, error} = useSWR(user ? '/api/getTransactions?id='+user.id+"&recurring=false" : null, fetcher)
     const {data: settings} = useSWR(transactions ? '/api/getUserSettings?id='+user.id : null, fetcher)
 
     useEffect(()=>{
@@ -29,6 +29,9 @@ export default function dashboard() {
             for(index in settings.Categories) {
                 select.options[select.options.length] = new Option(settings.Categories[index], settings.Categories[index])
             }
+
+            let today = new Date().toISOString().substr(0, 10);
+            document.getElementById("date").value = today;
         }
     }, [settings])
 
@@ -92,17 +95,12 @@ export default function dashboard() {
                     value={value}
                 />
 
-                <select
+                <input
                     onChange={e => setFrequency(e.target.value)}
-                    placeholder="frequency"
+                    type="date"
+                    id="date"
                     value={frequency}
-                >
-
-                    <option value="Daily">Daily</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Monthly">Monthly</option>
-                    <option value="Yearly">Yearly</option>
-                </select>
+                />
 
                 <select
                     id="categories"

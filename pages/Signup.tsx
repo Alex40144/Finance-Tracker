@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Router from 'next/router'
 import cookie from 'js-cookie'
-import Layout from '../components/FTlayout'
+import Layout from '../components/layout'
 
 export default function signup() {
     const [name, setName] = useState('')
