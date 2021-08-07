@@ -21,7 +21,7 @@ export default function dashboard() {
 
     useEffect(()=>{
         if (settings){
-            var select = document.getElementById("categories");
+            var select = document.getElementById("categories")  as HTMLSelectElement;
             if (!select){
                 return
             }
@@ -31,7 +31,8 @@ export default function dashboard() {
             }
 
             let today = new Date().toISOString().substr(0, 10);
-            document.getElementById("date").value = today;
+            var element = document.getElementById("date") as HTMLSelectElement
+            element.value = today;
         }
     }, [settings])
 

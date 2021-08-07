@@ -21,7 +21,7 @@ export default function dashboard() {
 
     useEffect(()=>{
         if (settings){
-            var select = document.getElementById("categories");
+            var select = document.getElementById("categories") as HTMLSelectElement;
             if (!select){
                 return
             }
@@ -72,8 +72,6 @@ export default function dashboard() {
             </Head>
             <h1>Transactions</h1>
             <Table data={transactions}/>
-
-            
             <div className="p-12 -flex text-justify">
                 <form
                 onSubmit={submitData}>

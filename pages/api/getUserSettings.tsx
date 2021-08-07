@@ -7,6 +7,9 @@ async function getSettings(id: number){
             id: id,
         },
     })
+    if (result == null){
+        return
+    }
     return result.settings;
 }
 

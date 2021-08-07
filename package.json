@@ -21,6 +21,7 @@
     "tailwindcss": "^2.2.5"
   },
   "devDependencies": {
+    "@types/js-cookie": "^2.2.7",
     "@types/react": "17.0.14",
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1",

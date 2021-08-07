@@ -18,6 +18,7 @@ async function findUser(email: string){
 
 async function authUser(email: string, password: string) {
     var user = await findUser(email);
+    if (user == null) {return false}
     var result = bcrypt.compare(password, user.password);
     return result;
 }
