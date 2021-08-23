@@ -5,8 +5,8 @@ import cookie from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify';
 import router from 'next/router';
 
-const name = 'Alex Pegg'
-export const siteTitle = 'Alex Pegg'
+const name = 'Finance Tracker'
+export const siteTitle = 'Finance Tracker'
 
 function toggleSidebar() {
     if (document.getElementById("Sidebar").style.width == "0px") {

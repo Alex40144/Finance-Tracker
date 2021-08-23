@@ -43,7 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             var result = await authUser(email, password)
             if (result) {
                 const token = jwt.sign(
-                    {userName: user.name, email: user.email, id:user.id},
+                    {name: user.name, email: user.email, id:user.id},
                     jwtSecret,
                     {
                         expiresIn: 3000, //50 minutes

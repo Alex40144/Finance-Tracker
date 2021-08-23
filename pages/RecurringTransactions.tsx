@@ -5,19 +5,21 @@ import Router from 'next/router'
 import useSWR from 'swr'
 import Table from '../components/table'
 import { useEffect } from "react"
+import { toast } from 'react-toastify';
 
 
 export default function dashboard() {
     const [title, setTitle] = useState('')
     const [value, setValue] = useState('')
     const [frequency , setFrequency] = useState('')
+    const [date , setDate] = useState('')
     const [category, setCategory] = useState('')
 
     const fetcher = (url: string) => fetch(url).then((response) => response.json())
 
-    const {data: user, revalidate} = useSWR('/api/authed', fetcher)
-    var {data: transactions, error} = useSWR(user ? '/api/getTransactions?id='+user.id+"&recurring=true" : null, fetcher)
-    const {data: settings} = useSWR(transactions ? '/api/getUserSettings?id='+user.id : null, fetcher)
+    const {data: user} = useSWR('/api/authed', fetcher)
+    var {data: transactions} = useSWR(user ? '/api/getTransactionsByType?id='+user.id+"&recurring=true" : null, fetcher)
+    const {data: settings, revalidate: getTransactions} = useSWR(transactions ? '/api/getUserSettings?id='+user.id : null, fetcher)
 
     useEffect(()=>{
         if (settings){
@@ -49,7 +51,7 @@ export default function dashboard() {
 
     const submitData = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        const body = { title, value, frequency, category, user }
+        const body = { title, value, frequency, category, user, date }
         const res = await fetch(`http://localhost:3000/api/createTransaction`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -60,7 +62,10 @@ export default function dashboard() {
         if (data && data.error) {
             alert(data.message)
         }
-            //check that it worked
+            toast("transaction added", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            getTransactions()
         });
     };
 
@@ -88,6 +93,13 @@ export default function dashboard() {
                     placeholder="value"
                     type="number"
                     value={value}
+                />
+
+                <input
+                    onChange={e => setDate(e.target.value)}
+                    type="date"
+                    id="date"
+                    value={date}
                 />
 
                 <select
